@@ -1,5 +1,5 @@
 import { ModuleMetadata, Provider, Type } from '@nestjs/common';
-import { UseFactoryOptions } from './usefactory-module.interface';
+import { UseFactoryOptionsFactory } from './usefactory-module.interface';
 
 export interface UseFactoryModuleOption {
   type: string;
@@ -8,17 +8,16 @@ export interface UseFactoryModuleOption {
 
 export interface UseFactoryModuleOptionAsync
   extends Pick<ModuleMetadata, 'imports'> {
-  type: string;
   /**
    * Injection token resolving to an existing provider. The provider must implement
    * the `UseFactoryOptions` interface.
    */
-  useExisting?: Type<UseFactoryOptions>;
+  useExisting?: Type<UseFactoryOptionsFactory>;
   /**
    * Injection token resolving to a class that will be instantiated as a provider.
    * The class must implement the `UseFactoryOptions` interface.
    */
-  useClass?: Type<UseFactoryOptions>;
+  useClass?: Type<UseFactoryOptionsFactory>;
 
   /**
    * Function returning options (or a Promise resolving to options) to configure the
@@ -26,7 +25,7 @@ export interface UseFactoryModuleOptionAsync
    */
   useFactory?: (
     ...args: any[]
-  ) => Promise<UseFactoryOptions> | UseFactoryOptions;
+  ) => Promise<UseFactoryModuleOption> | UseFactoryModuleOption;
 
   /**
    * Dependencies that a Factory may inject.

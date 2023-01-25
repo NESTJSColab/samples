@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,7 +10,14 @@ import { UseFactoryModule } from './usefactory/usefactory.module';
   imports: [
     ConfigModule.forRoot(),
     UseValueFactoryModule.forRoot({ type: 'A' }),
-    UseFactoryModule.forRoot({ type: 'A' }),
+    //UseFactoryModule.forRoot({ type: 'A' }),
+    UseFactoryModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        type: configService.get<string>('type') ?? 'B',
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

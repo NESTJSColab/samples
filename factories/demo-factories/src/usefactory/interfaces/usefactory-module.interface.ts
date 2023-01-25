@@ -1,3 +1,3 @@
-export interface UseFactoryOptions {
+export interface UseFactoryOptionsFactory {
   createUseFactoryOptions();
 }

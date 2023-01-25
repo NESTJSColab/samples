@@ -2,6 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 
 import { UseValueExecutorAService } from './service/usevalue-executor-a.service';
 import { UseValueExecutorBService } from './service/usevalue-executor-b.service';
+import { UseValueServiceFactory } from './service/usevalue.service';
 import { UseValueFactoryConstants } from './usevalue-constant';
 import { UseValueOptions } from './usevalue-options';
 
@@ -10,10 +11,7 @@ export class UseValueFactoryModule {
   public static forRoot(options: UseValueOptions): DynamicModule {
     const UseValueFactoryProvider = {
       provide: UseValueFactoryConstants.USEVALUE_FACTORY,
-      useValue:
-        options.type === 'A'
-          ? new UseValueExecutorAService()
-          : new UseValueExecutorBService(),
+      useValue: new UseValueServiceFactory(options).getExecutor(),
     };
 
     return {

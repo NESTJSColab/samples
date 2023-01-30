@@ -14,4 +14,9 @@ export class AppController {
   useFactory(): string {
     return this.appService.useFactory();
   }
+
+  @Get('gerKraken')
+  getKrakenMarkets(): string {
+    return this.appService.getKrakenMarkets();
+  }
 }
